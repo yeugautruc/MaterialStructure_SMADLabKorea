@@ -1,0 +1,35 @@
+clear, clc
+
+% Loading mesh information
+entable_fine = load('entable_fine.txt');
+node_fine = load('node_fine.txt');
+
+entable_coarse = load('entable_ab1.txt');
+node_coarse = load('node_coarse.txt');
+
+% Plot
+EN_fine = length(entable_fine);
+for i = 1 : EN_fine
+    
+    grid_fine = entable_fine(i, :);
+    X_fine = node_fine(grid_fine,1);
+    Y_fine = node_fine(grid_fine,2);
+    
+    subplot(121)
+    patch(X_fine, Y_fine, 'g')
+    
+end
+axis equal
+
+EN_coarse = length(entable_coarse);
+for i = 1 : EN_coarse
+    
+    grid_coarse = entable_coarse(i, :);
+    X_coarse = node_coarse(grid_coarse,1);
+    Y_coarse = node_coarse(grid_coarse,2);
+    
+    subplot(122)
+    patch(X_coarse, Y_coarse, 'b')
+    
+end
+axis equal

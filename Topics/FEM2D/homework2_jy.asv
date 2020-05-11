@@ -1,0 +1,46 @@
+clc;
+clear;
+close;
+K=44.5;
+L=3;
+M=3;
+h=-1000;
+g=293.15
+fc=1000;
+n=2
+N=n^2;
+Le=L/n;
+Me=M/n;
+elnode=[];
+for i=1:N
+    p=floor(Le*(i-1)/L);
+    elnode=[elnode;[i+p i+p+1 i+p+1+n+1 i+p+1+n]];
+end
+ek=[K*Le/(3*Me)+K*
+
+fb=[Le*Me/4
+    Le*Me/4
+    Me^2/4
+    Me^2/4]*fc;
+fe=[0
+    0
+    Me/2
+    Me/2]*h;
+k=zeros((n+1)^2);
+f=zeros((n+1)^2,1);
+for i=1:N
+    p=floor(Le*(i-1)/L);
+    dof=elnode(i,:);
+    k(dof,dof)=k(dof,dof)+ek;
+    f(dof)=f(dof)+fb;
+    if p==n-1
+        f(dof)=f(dof)-fe;
+    end
+end
+fixdof=[1:n+1:(n+1)^2];
+kbig=max(diag(k))*1e7;
+for i=fixdof
+    k(i,i)=k(i,i)+kbig;
+    f(i)=f(i)+g*kbig;
+end
+d=k\f
